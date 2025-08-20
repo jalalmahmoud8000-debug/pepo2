@@ -59,6 +59,21 @@
                 </svg>
             </button>
         </div>
+
+        <div class="absolute bottom-4 right-4 z-20">
+          <button id="audio-control" 
+            class="p-4 bg-white bg-opacity-20 rounded-full text-pink-400 hover:bg-opacity-40 transition-all duration-500 shadow-lg flex items-center justify-center"
+            aria-label="تشغيل الأغنية">
+            <!-- شكل القلب -->
+            <svg id="heart-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+                       2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09 
+                       C13.09 3.81 14.76 3 16.5 3 
+                       19.58 3 22 5.42 22 8.5 
+                       c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </button>
+        </div>
     </main>
 
     <!-- Welcome/Instructions Screen -->
@@ -68,6 +83,7 @@
          للبدء، قم بإنشاء مجلد `images` في مشروعك <br/> ثم أضف أسماء ملفات الصور الخاصة بك في ملف `index.html`.
        </p>
     </div>
+
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
