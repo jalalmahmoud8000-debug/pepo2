@@ -9,62 +9,42 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-      /* Base styles */
       body {
         font-family: 'Inter', sans-serif;
-        overflow: hidden; /* Prevent scrollbars */
+        overflow: hidden;
       }
       .font-cursive {
         font-family: 'Dancing Script', cursive;
       }
-
-      /* Ken Burns Effect Animations */
       @keyframes kenburns-tl { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.25) translate(-10%, -10%); } }
       @keyframes kenburns-br { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.25) translate(10%, 10%); } }
       @keyframes kenburns-zoom-in { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
       @keyframes kenburns-zoom-out { 0% { transform: scale(1.2); } 100% { transform: scale(1); } }
-
-      /* Particle Animation */
       @keyframes float-particle { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }
       .animate-float-particle { animation: float-particle linear infinite; }
     </style>
 </head>
 <body class="bg-gradient-to-br from-[#1d2b64] to-[#4a0e2e]">
 
-    <!-- Main Container -->
     <main id="app-container" class="relative h-screen w-screen overflow-hidden">
-        
-        <!-- Particle Overlay -->
         <div id="particle-overlay" class="absolute inset-0 pointer-events-none overflow-hidden z-10"></div>
 
         <!-- Slideshow -->
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div  class="relative w-full max-w-lg aspect-[3/4] overflow-hidden rounded-lg shadow-2xl bg-black">
-                <!-- Current Image -->
-                <div onclick="document.getElementById('bg-music').play()" id="current-image" class="absolute inset-0 bg-cover bg-center" style="animation-duration: 20s; animation-timing-function: ease-out; animation-fill-mode: forwards;"></div>
-                <!-- Next Image (for crossfade) -->
-                <div id="next-image" class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-[1500ms] ease-in-out" style="animation-duration: 20s; animation-timing-function: ease-out; animation-fill-mode: forwards;"></div>
+            <div class="relative w-full max-w-lg aspect-[3/4] overflow-hidden rounded-lg shadow-2xl bg-black">
+                <div id="current-image" class="absolute inset-0 bg-cover bg-center" style="animation-duration: 20s; animation-fill-mode: forwards;"></div>
+                <div id="next-image" class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-[1500ms] ease-in-out" style="animation-duration: 20s; animation-fill-mode: forwards;"></div>
             </div>
         </div>
-        
+
         <!-- Audio Player -->
         <audio id="background-music" loop></audio>
 
-        <!-- Audio Control -->
+        <!-- Audio Control Button -->
         <div class="absolute bottom-4 right-4 z-20">
-            <button id="audio-control" class="p-3 bg-white bg-opacity-20 rounded-full text-pink-300 hover:bg-opacity-30 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400" aria-label="Mute music">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" stroke="none">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    <line id="mute-line" x1="4" y1="4" x2="20" y2="20" stroke="white" stroke-width="2.5" class="hidden" />
-                </svg>
-            </button>
-        </div>
-
-        <div class="absolute bottom-4 right-4 z-20">
-          <button id="audio-control" 
+          <button id="play-music" 
             class="p-4 bg-white bg-opacity-20 rounded-full text-pink-400 hover:bg-opacity-40 transition-all duration-500 shadow-lg flex items-center justify-center"
             aria-label="تشغيل الأغنية">
-            <!-- شكل القلب -->
             <svg id="heart-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
                        2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09 
@@ -76,22 +56,8 @@
         </div>
     </main>
 
-    <!-- Welcome/Instructions Screen -->
-    <div id="welcome-screen" class="hidden absolute inset-0 z-30 flex-col items-center justify-center text-center text-white p-8 bg-black bg-opacity-50">
-       <h1 class="font-cursive text-5xl md:text-7xl mb-4 text-pink-300">أهلاً بكِ</h1>
-       <p class="text-lg md:text-2xl text-gray-300">
-         للبدء، قم بإنشاء مجلد `images` في مشروعك <br/> ثم أضف أسماء ملفات الصور الخاصة بك في ملف `index.html`.
-       </p>
-    </div>
-
-
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // --- START OF CONFIGURATION ---
-        // HOW-TO:
-        // 1. Create a folder named `images` in your project's main directory.
-        // 2. Place all your photos inside that `images` folder.
-        // 3. Replace the example filenames below with the exact filenames of your photos.
         const IMAGES = [
           './images/portrait1.jpeg',
           './images/portrait2.jpeg',
@@ -104,29 +70,13 @@
 
         const MUSIC_URL = 'https://cdn.pixabay.com/download/audio/2022/11/22/audio_2c5b365b2c.mp3';
         const KEN_BURNS_CLASSES = ['kenburns-tl', 'kenburns-br', 'kenburns-zoom-in', 'kenburns-zoom-out'];
-        // --- END OF CONFIGURATION ---
 
-
-        // --- DOM Elements ---
-        const appContainer = document.getElementById('app-container');
-        const welcomeScreen = document.getElementById('welcome-screen');
-        const particleOverlay = document.getElementById('particle-overlay');
         const currentImageDiv = document.getElementById('current-image');
         const nextImageDiv = document.getElementById('next-image');
         const audio = document.getElementById('background-music');
-        const audioControl = document.getElementById('audio-control');
-        const muteLine = document.getElementById('mute-line');
+        const playBtn = document.getElementById('play-music');
 
-
-        // --- App Initialization ---
-        if (!IMAGES || IMAGES.length === 0) {
-            appContainer.classList.add('hidden');
-            welcomeScreen.classList.remove('hidden');
-            welcomeScreen.classList.add('flex');
-            return;
-        }
-
-        // --- Particle Generation ---
+        // Setup particles
         const createParticles = () => {
           const numParticles = 50;
           const fragment = document.createDocumentFragment();
@@ -143,85 +93,50 @@
             particle.style.left = `${left}%`;
             particle.style.animationDuration = `${duration}s`;
             particle.style.animationDelay = `${delay}s`;
-            
+
             fragment.appendChild(particle);
           }
-          particleOverlay.appendChild(fragment);
-        };
-        
-        // --- Audio Handling ---
-        const setupAudio = () => {
-            audio.src = MUSIC_URL;
-            audioControl.addEventListener('click', () => {
-                const isNowMuted = !audio.muted;
-                audio.muted = isNowMuted;
-                muteLine.classList.toggle('hidden', !isNowMuted);
-                audioControl.setAttribute('aria-label', isNowMuted ? 'Unmute music' : 'Mute music');
-            });
-
-            // Attempt to autoplay
-            const playAudio = async () => {
-              try {
-                await audio.play();
-              } catch (error) {
-                console.error("Autoplay was blocked. User interaction is required.", error);
-              }
-            };
-            playAudio();
+          document.getElementById('particle-overlay').appendChild(fragment);
         };
 
-        // --- Slideshow Logic ---
+        // Setup audio
+        audio.src = MUSIC_URL;
+        playBtn.addEventListener('click', async () => {
+          try {
+            await audio.play();
+            playBtn.classList.add('bg-pink-500');
+          } catch (e) {
+            console.error('Playback failed', e);
+          }
+        });
+
+        // Setup slideshow
         let currentIndex = 0;
         let isFading = false;
-        
-        const setupSlideshow = () => {
-          const showNextSlide = () => {
-            if (isFading) return;
-            isFading = true;
+        const showNextSlide = () => {
+          if (isFading) return;
+          isFading = true;
+          const nextIndex = (currentIndex + 1) % IMAGES.length;
 
-            const nextIndex = (currentIndex + 1) % IMAGES.length;
+          nextImageDiv.style.backgroundImage = `url('${IMAGES[nextIndex]}')`;
+          nextImageDiv.style.animationName = KEN_BURNS_CLASSES[nextIndex % KEN_BURNS_CLASSES.length];
+          nextImageDiv.classList.remove('opacity-0');
 
-            // Set up the next image
-            nextImageDiv.style.backgroundImage = `url('${IMAGES[nextIndex]}')`;
-            const nextAnimation = KEN_BURNS_CLASSES[nextIndex % KEN_BURNS_CLASSES.length];
-            nextImageDiv.style.animationName = nextAnimation;
-
-            // Start the fade
-            nextImageDiv.classList.remove('opacity-0');
-
-            // After fade completes, update the current image and reset
-            setTimeout(() => {
-                // Update current image to be the one that just faded in
-                currentIndex = nextIndex;
-                currentImageDiv.style.backgroundImage = `url('${IMAGES[currentIndex]}')`;
-                const currentAnimation = KEN_BURNS_CLASSES[currentIndex % KEN_BURNS_CLASSES.length];
-                currentImageDiv.style.animationName = currentAnimation;
-
-                // Hide the next image div again, ready for the next transition
-                nextImageDiv.classList.add('opacity-0');
-                
-                isFading = false;
-            }, 1500); // Must match CSS transition duration
-          };
-          
-          // Initial setup for the first image
-          currentImageDiv.style.backgroundImage = `url('${IMAGES[currentIndex]}')`;
-          currentImageDiv.style.animationName = KEN_BURNS_CLASSES[currentIndex % KEN_BURNS_CLASSES.length];
-
-          // Start the slideshow timer
-          setInterval(showNextSlide, 8000);
+          setTimeout(() => {
+            currentIndex = nextIndex;
+            currentImageDiv.style.backgroundImage = `url('${IMAGES[currentIndex]}')`;
+            currentImageDiv.style.animationName = KEN_BURNS_CLASSES[currentIndex % KEN_BURNS_CLASSES.length];
+            nextImageDiv.classList.add('opacity-0');
+            isFading = false;
+          }, 1500);
         };
 
-        // --- Run Everything ---
+        currentImageDiv.style.backgroundImage = `url('${IMAGES[currentIndex]}')`;
+        currentImageDiv.style.animationName = KEN_BURNS_CLASSES[currentIndex % KEN_BURNS_CLASSES.length];
+        setInterval(showNextSlide, 8000);
+
         createParticles();
-        setupAudio();
-        setupSlideshow();
       });
     </script>
-    <audio loop>
-      <source src="audio/music.mp3" type="audio/mpeg">
-    </audio>
-</body>
 </body>
 </html>
-
