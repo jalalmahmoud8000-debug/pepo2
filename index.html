@@ -39,9 +39,9 @@
 
         <!-- Slideshow -->
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div onclick="document.getElementById('bg-music').play()" class="relative w-full max-w-lg aspect-[3/4] overflow-hidden rounded-lg shadow-2xl bg-black">
+            <div  class="relative w-full max-w-lg aspect-[3/4] overflow-hidden rounded-lg shadow-2xl bg-black">
                 <!-- Current Image -->
-                <div id="current-image" class="absolute inset-0 bg-cover bg-center" style="animation-duration: 20s; animation-timing-function: ease-out; animation-fill-mode: forwards;"></div>
+                <div onclick="document.getElementById('bg-music').play()" id="current-image" class="absolute inset-0 bg-cover bg-center" style="animation-duration: 20s; animation-timing-function: ease-out; animation-fill-mode: forwards;"></div>
                 <!-- Next Image (for crossfade) -->
                 <div id="next-image" class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-[1500ms] ease-in-out" style="animation-duration: 20s; animation-timing-function: ease-out; animation-fill-mode: forwards;"></div>
             </div>
